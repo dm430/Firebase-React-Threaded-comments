@@ -1,0 +1,49 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "comments3",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "parentId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "postId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "postType",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "comments3",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "parentId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "postId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "postType",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
