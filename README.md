@@ -1,6 +1,6 @@
 ## How to run
 
-Before you can run this project you must start a firebase project and create a database. After you have created your project and database copy your projects config, create the following file `src\firebaseConfig.json`, and add your configuration object into it. You can then run `yarn start` to launch the example.
+Before you can run this project you must start a firebase project and create a database. After you have created your project and database create the following file `src\firebaseConfig.json`, and add your projects configuration object into it. Once these steps are completed you can then run `yarn start` to launch the example.
 
 
 ## Available Scripts
