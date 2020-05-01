@@ -128,4 +128,4 @@ dist
 .tern-port
 
 # Firebase config
-./firebaseConfig.json
+src/firebaseConfig.json
