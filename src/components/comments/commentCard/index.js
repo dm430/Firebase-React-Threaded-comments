@@ -6,23 +6,20 @@ import { addComment } from '../lib/commentManagement';
 import ReplyForm from '../replyForm';
 import CommentThread from '../commentThread';
 
-const CommentCard = ({ comment, /* addToCommentToThread, */ commentDepth, maxThreadDepth }) => {
+const CommentCard = ({ comment, commentDepth, maxThreadDepth }) => {
     const fallBackProfileImage = 'https://image.ibb.co/jw55Ex/def_face.jpg'
 	const profileImage = comment.user.profileImage || fallBackProfileImage;
 	const [addedSubThreadComments, setAddedSubThreadComments] = useState([]);
 	const firebaseUser = useAuth();
 
 	const replyToComment = async (commentReplyText) => {
-		// await addToCommentToThread(comment.id, commentReplyText);
-
 		const commentToAdd = {
             parentId: comment.id, 
             content: commentReplyText,
             postId: comment.postId,
             postType: comment.postType
-        };
-
-        // TODO: This path is not optomized and could result in an extra read.
+		};
+		
         const result = await addComment(commentToAdd, firebaseUser);
         setAddedSubThreadComments([...addedSubThreadComments, result])
 	}
@@ -54,7 +51,7 @@ const CommentCard = ({ comment, /* addToCommentToThread, */ commentDepth, maxThr
 					</div>
 				</div>
 			</div>
-			<CommentThread parentId={comment.id} type={comment.postType} slug={comment.postId} parentAddedSubThreadComments={addedSubThreadComments} currentDepth={(commentDepth + 1)} maxDepthToOpen={maxThreadDepth} />
+			<CommentThread parentId={comment.id} type={comment.postType} slug={comment.postId} parentAddedSubThreadComments={addedSubThreadComments} currentDepth={(commentDepth + 1)} maxDepthToOpen={maxThreadDepth} commentReplyCount={comment.childCount} />
 		</>
     )
 };

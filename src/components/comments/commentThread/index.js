@@ -5,35 +5,9 @@ import './styles.css';
 import { getComments } from '../lib/commentManagement';
 import CommentCard from '../commentCard';
 
-const CommentThread = ({ slug, type, parentId, maxDepthToOpen, currentDepth, parentAddedSubThreadComments }) => {
+const CommentThread = ({ slug, type, parentId, maxDepthToOpen, currentDepth, parentAddedSubThreadComments, commentReplyCount }) => {
     const [comments, setComments] = useState([]);
     const [showMore, setShowMore] = useState(false);
-    // const [addedSubThreadComments, setAddedSubThreadComments] = useState([]);
-    // const [subThreadsToLoad, setSubThreadsToLoad] = useState({});
-
-    // const addToCommentToSubThread = async (parentId, content) => {
-    //     const comment = {
-    //         parentId, 
-    //         content,
-    //         postId: slug,
-    //         postType: type
-    //     };
-
-    //     const user = {
-    //         uid: '1234',
-    //         displayName: 'Test User',
-    //         profileImage: null
-    //     };
-
-    //     // TODO: This path is not optomized and could result in an extra read.
-    //     const result = await addComment(comment, user);
-
-    //     if (currentDepth < maxDepthToOpen) {
-    //         setAddedSubThreadComments([...addedSubThreadComments, result])
-    //     }
-
-    //     // setShouldLoadSubThread(true);
-    // };
 
     useEffect(() => {
       const loadComments = async () => {
@@ -50,37 +24,32 @@ const CommentThread = ({ slug, type, parentId, maxDepthToOpen, currentDepth, par
 
     const nextDepth = !showMore ? currentDepth : 0;
     const commentsToRender = [...comments, ...parentAddedSubThreadComments];
-    const commentsComps = commentsToRender?.map(commentDoc => { 
-        return <CommentCard key={commentDoc.id} comment={{ id: commentDoc.id, ...commentDoc.data()}} commentDepth={nextDepth} maxThreadDepth={maxDepthToOpen} /> 
-        // return (
-        //     <div key={commentDoc.id} className={`${commentDoc.id}-thread thread`}>
-        //         <CommentCard comment={{ id: commentDoc.id, ...commentDoc.data()}} addToCommentToThread={addToCommentToSubThread} /> 
+    const commentsComps = commentsToRender?.map(commentDoc => 
+        <CommentCard key={commentDoc.id} 
+            comment={{ id: commentDoc.id, ...commentDoc.data()}} 
+            commentDepth={nextDepth} 
+            maxThreadDepth={maxDepthToOpen} 
+        />
+    );
 
-        //         {(currentDepth < maxDepthToOpen) && (
-        //             <div className={`${commentDoc.id}-thread-replies subthread`}> 
-        //                 <CommentThread parentId={commentDoc.id} type={type} slug={slug} currentDepth={nextDepth} maxDepthToOpen={maxDepthToOpen} parentAddedSubThreadComments={addedSubThreadComments} />
-        //             </div>
-        //         )}
-        //         {(currentDepth >= maxDepthToOpen) && (
-        //             <span onClick={handleSubThreadLoad}><i className="fas fa-ellipsis-h"></i>See more replies</span>
-        //         )}
-        //     </div>
-        // );
-    });
+    const showMoreLink = commentReplyCount > 0 ? 
+        <span onClick={() => setShowMore(true)}><i className="fas fa-ellipsis-h"></i>See ({commentReplyCount}) more replies</span> 
+        : null;
 
     return (
         (commentsComps && currentDepth < maxDepthToOpen) || showMore ? 
-            <div className={`${parentId}-thread thread`}>{commentsComps}</div> 
-            : <span onClick={() => setShowMore(true)}><i className="fas fa-ellipsis-h"></i>See more replies</span>
+          <div className={`${parentId}-thread thread`}>{commentsComps}</div> 
+        : showMoreLink
     );
 }
 
 CommentThread.propTypes = {
     slug: propTypes.string.isRequired,
     type: propTypes.string.isRequired,
-    parentId: propTypes.number,
+    parentId: propTypes.string,
     maxDepthToOpen: propTypes.number,
     currentDepth: propTypes.number,
+    commentReplyCount: propTypes.number,
     parentAddedSubThreadComments: propTypes.array
 }
 
@@ -88,6 +57,7 @@ CommentThread.defaultProps = {
     parentId: null,
     maxDepthToOpen: 0,
     currentDepth: 0,
+    commentReplyCount: 0,
     parentAddedSubThreadComments: []
 }
 

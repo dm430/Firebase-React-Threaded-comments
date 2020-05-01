@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import * as firebase from 'firebase';
 
 import { AuthContextProvider } from './hooks/firebaseAuth';
-import firebaseConfig from '../firebaseConfig.json'
+import firebaseConfig from './firebaseConfig.json'
 
 firebase.initializeApp(firebaseConfig);
 
