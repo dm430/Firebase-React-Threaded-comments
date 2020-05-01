@@ -6,7 +6,7 @@ import { addComment } from '../lib/commentManagement';
 import CommentThread from '../commentThread';
 import ReplyForm from '../replyForm';
 
-const MasterCommentThread = ({ slug, type, parentId, maxDepthToOpen }) => {
+const MasterCommentThread = ({ slug, type, parentId, maxThreadDepth }) => {
     const [addedSubThreadComments, setAddedSubThreadComments] = useState([]);
     const firebaseUser = useAuth();
 
@@ -31,7 +31,7 @@ const MasterCommentThread = ({ slug, type, parentId, maxDepthToOpen }) => {
             </div>
             <div className="row">
                 <div className="col-sm-12"> 
-                    <CommentThread slug={slug} type={type} parentId={parentId} maxDepthToOpen={maxDepthToOpen} parentAddedSubThreadComments={addedSubThreadComments} />
+                    <CommentThread slug={slug} type={type} parentId={parentId} maxThreadDepth={maxThreadDepth} parentAddedSubThreadComments={addedSubThreadComments} />
                 </div>
             </div>
         </div>
@@ -42,12 +42,12 @@ MasterCommentThread.propTypes = {
     slug: propTypes.string.isRequired,
     type: propTypes.string.isRequired,
     parentId: propTypes.string,
-    maxDepthToOpen: propTypes.number
+    maxThreadDepth: propTypes.number
 }
 
 MasterCommentThread.defaultProps = {
     parentId: null,
-    maxDepthToOpen: 0
+    maxThreadDepth: 0
 }
 
 export default MasterCommentThread;

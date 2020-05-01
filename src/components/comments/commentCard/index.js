@@ -51,7 +51,7 @@ const CommentCard = ({ comment, commentDepth, maxThreadDepth }) => {
 					</div>
 				</div>
 			</div>
-			<CommentThread parentId={comment.id} type={comment.postType} slug={comment.postId} parentAddedSubThreadComments={addedSubThreadComments} currentDepth={(commentDepth + 1)} maxDepthToOpen={maxThreadDepth} commentReplyCount={comment.childCount} />
+			<CommentThread parentId={comment.id} type={comment.postType} slug={comment.postId} parentAddedSubThreadComments={addedSubThreadComments} currentDepth={(commentDepth + 1)} maxThreadDepth={maxThreadDepth} commentReplyCount={comment.childCount} />
 		</>
     )
 };

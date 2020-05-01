@@ -16,7 +16,7 @@ function App() {
       {!user && <button onClick={() => signInWithPopup(AuthProviders.Google)}>login</button>}
       {user && <button onClick={() => signOut()}>logout</button>}
 
-      <MasterCommentThread type="deal" slug="1234" maxDepthToOpen={3} />
+      <MasterCommentThread type="deal" slug="1234" maxThreadDepth={3} />
 
       <script src="https://kit.fontawesome.com/d3739dd889.js" crossorigin="anonymous"></script>
     </div>

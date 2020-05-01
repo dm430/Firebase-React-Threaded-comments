@@ -5,7 +5,7 @@ import './styles.css';
 import { getComments } from '../lib/commentManagement';
 import CommentCard from '../commentCard';
 
-const CommentThread = ({ slug, type, parentId, maxDepthToOpen, currentDepth, parentAddedSubThreadComments, commentReplyCount }) => {
+const CommentThread = ({ slug, type, parentId, maxThreadDepth, currentDepth, parentAddedSubThreadComments, commentReplyCount }) => {
     const [comments, setComments] = useState([]);
     const [showMore, setShowMore] = useState(false);
 
@@ -13,7 +13,7 @@ const CommentThread = ({ slug, type, parentId, maxDepthToOpen, currentDepth, par
       const loadComments = async () => {
         console.log(`fetching data for currentDepth: ${currentDepth}`);
 
-        if (currentDepth < maxDepthToOpen || showMore) {
+        if (currentDepth < maxThreadDepth || showMore) {
             const commentsForLevel = await getComments(parentId, slug, type);
             setComments(commentsForLevel.docs);
         }
@@ -28,7 +28,7 @@ const CommentThread = ({ slug, type, parentId, maxDepthToOpen, currentDepth, par
         <CommentCard key={commentDoc.id} 
             comment={{ id: commentDoc.id, ...commentDoc.data()}} 
             commentDepth={nextDepth} 
-            maxThreadDepth={maxDepthToOpen} 
+            maxThreadDepth={maxThreadDepth} 
         />
     );
 
@@ -37,7 +37,7 @@ const CommentThread = ({ slug, type, parentId, maxDepthToOpen, currentDepth, par
         : null;
 
     return (
-        (commentsComps && currentDepth < maxDepthToOpen) || showMore ? 
+        (commentsComps && currentDepth < maxThreadDepth) || showMore ? 
           <div className={`${parentId}-thread thread`}>{commentsComps}</div> 
         : showMoreLink
     );
@@ -47,7 +47,7 @@ CommentThread.propTypes = {
     slug: propTypes.string.isRequired,
     type: propTypes.string.isRequired,
     parentId: propTypes.string,
-    maxDepthToOpen: propTypes.number,
+    maxThreadDepth: propTypes.number,
     currentDepth: propTypes.number,
     commentReplyCount: propTypes.number,
     parentAddedSubThreadComments: propTypes.array
@@ -55,7 +55,7 @@ CommentThread.propTypes = {
 
 CommentThread.defaultProps = {
     parentId: null,
-    maxDepthToOpen: 0,
+    maxThreadDepth: 0,
     currentDepth: 0,
     commentReplyCount: 0,
     parentAddedSubThreadComments: []
